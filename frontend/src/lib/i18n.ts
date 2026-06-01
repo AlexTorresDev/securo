@@ -4,6 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 
 import ptBR from '@/locales/pt-BR.json'
 import en from '@/locales/en.json'
+import es from '@/locales/es.json'
 
 function syncHtmlLang(lng: string) {
   document.documentElement.lang = lng
@@ -16,6 +17,7 @@ i18n
     resources: {
       'pt-BR': { translation: ptBR },
       en: { translation: en },
+      es: { translation: es }, // Fallback to English for Spanish since we don't have a separate file
     },
     fallbackLng: 'pt-BR',
     interpolation: {

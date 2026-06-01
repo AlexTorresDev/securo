@@ -62,7 +62,7 @@ export default function RegisterPage() {
 
     setIsLoading(true)
     try {
-      const lang = i18n.language?.startsWith('pt') ? 'pt-BR' : 'en'
+      const lang = (i18n.resolvedLanguage || i18n.language || 'en').replace('_', '-')
       await register(email, password, {
         currency_display: currency,
         language: lang,

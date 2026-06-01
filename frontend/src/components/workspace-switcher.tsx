@@ -108,7 +108,8 @@ export function WorkspaceSwitcher({
   const [createOpen, setCreateOpen] = useState(false)
   const [newName, setNewName] = useState('')
 
-  const currentLang = i18n.language?.startsWith('pt') ? 'pt-BR' : 'en'
+  const currentLanguage = (i18n.resolvedLanguage ?? i18n.language ?? 'en').toLowerCase()
+  const currentLang = currentLanguage.split('-')[0]
 
   const createMutation = useMutation({
     mutationFn: () =>
@@ -272,7 +273,7 @@ export function WorkspaceSwitcher({
               <Languages size={14} />
               <span className="flex-1">{t('setup.language')}</span>
               <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-                {currentLang === 'pt-BR' ? 'PT' : 'EN'}
+                {currentLang}
               </span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
@@ -293,6 +294,13 @@ export function WorkspaceSwitcher({
                 >
                   <span className="flex-1">English</span>
                   {currentLang === 'en' && <Check size={13} className="text-primary" />}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => i18n.changeLanguage('es')}
+                  className="flex items-center gap-2"
+                >
+                  <span className="flex-1">Español</span>
+                  {currentLang === 'es' && <Check size={13} className="text-primary" />}
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
