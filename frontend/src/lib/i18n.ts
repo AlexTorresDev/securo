@@ -17,7 +17,7 @@ i18n
     resources: {
       'pt-BR': { translation: ptBR },
       en: { translation: en },
-      es: { translation: es }, // Fallback to English for Spanish since we don't have a separate file
+      es: { translation: es },
     },
     fallbackLng: 'pt-BR',
     interpolation: {
@@ -27,5 +27,19 @@ i18n
 
 syncHtmlLang(i18n.language)
 i18n.on('languageChanged', syncHtmlLang)
+
+export type SupportedLang = 'pt-BR' | 'en' | 'es'
+
+// Normalise any browser/i18n language tag to one of our supported keys. The
+// backend and resource bundles key Portuguese as the region-tagged 'pt-BR'
+// while 'en'/'es' are bare, so naively truncating to the primary subtag
+// (e.g. 'pt-BR'.split('-')[0] -> 'pt') yields a value neither side recognises
+// and silently falls back to English. Match on the primary subtag instead.
+export function resolveSupportedLang(lng?: string | null): SupportedLang {
+  const tag = (lng ?? '').toLowerCase()
+  if (tag.startsWith('pt')) return 'pt-BR'
+  if (tag.startsWith('es')) return 'es'
+  return 'en'
+}
 
 export default i18n

@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { useAuth } from '@/contexts/auth-context'
 import { useWorkspace } from '@/contexts/workspace-context'
 import { workspaces as workspacesApi } from '@/lib/api'
+import { resolveSupportedLang } from '@/lib/i18n'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -108,8 +109,7 @@ export function WorkspaceSwitcher({
   const [createOpen, setCreateOpen] = useState(false)
   const [newName, setNewName] = useState('')
 
-  const currentLanguage = (i18n.resolvedLanguage ?? i18n.language ?? 'en').toLowerCase()
-  const currentLang = currentLanguage.split('-')[0]
+  const currentLang = resolveSupportedLang(i18n.resolvedLanguage ?? i18n.language)
 
   const createMutation = useMutation({
     mutationFn: () =>
@@ -273,7 +273,7 @@ export function WorkspaceSwitcher({
               <Languages size={14} />
               <span className="flex-1">{t('setup.language')}</span>
               <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-                {currentLang}
+                {currentLang.split('-')[0]}
               </span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
